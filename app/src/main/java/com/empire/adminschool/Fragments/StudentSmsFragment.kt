@@ -48,6 +48,7 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.injectRepository(requireActivity())
+        viewModel.getClasses(MyApplication.loginResponse!!.school.id, this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,13 +71,21 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
         session!!.text = mSchool.current_session
 
         progressBar!!.visibility = View.VISIBLE
-        viewModel.getClasses("1", this)
+
+        classesSpinner!!.onItemSelectedListener =  object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                progressBar!!.visibility = View.VISIBLE
+                viewModel.getStudents(classes.get(position).id,MyApplication.loginResponse!!.school.current_session,this@StudentSmsFragment)
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
     }
 
     override fun onGetClasses(classes: List<Classes>) {
         if (classes.size > 0) {
             this.classes = classes
             adapter!!.setClassesList(classes)
+            viewModel.getStudents(classes.get(0).id,MyApplication.loginResponse!!.school.current_session,this)
         }
     }
 

@@ -16,7 +16,7 @@ interface EndPoints {
  http://masoodrehman.com/baloch/public/api/busService/seatHold
      */
 
-    @POST("api/user/login")
+    @POST("api/login")
     @FormUrlEncoded
     fun userLogin(
         @Field("username") username: String,

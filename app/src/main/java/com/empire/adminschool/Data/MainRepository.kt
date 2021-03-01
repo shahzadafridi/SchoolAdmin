@@ -78,7 +78,10 @@ class MainRepository(
                 var res: StudentResponse? = response.body()
                 if (res != null) {
                     if(res.status == 200){
-                        itrface.onGetStudents(res.studetns)
+                        if(res.students != null)
+                            itrface.onGetStudents(res.students)
+                        else
+                            itrface.onError("No students found.")
                     }
                 } else {
                     itrface.onError("response body null.")

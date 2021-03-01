@@ -29,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
         etEmail = findViewById(R.id.login_email_et)
         etPass = findViewById(R.id.login_pass_et)
         btLogin = findViewById(R.id.login_btn)
+        etEmail!!.setText("admin")
+        etPass!!.setText("@admin#599")
         btLogin!!.setOnClickListener {
             if (validation()){
                 progressBar!!.visibility = View.VISIBLE

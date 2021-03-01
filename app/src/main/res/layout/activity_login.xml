@@ -51,7 +51,7 @@
         android:layout_marginRight="16dp"
         android:background="@drawable/black_white_rect_bg"
         android:ems="10"
-        android:fontFamily="@font/monestro_regular"
+        android:fontFamily="@font/monestro_medium"
         android:inputType="textPersonName"
         android:textColor="#000"
         android:textSize="14dp"
