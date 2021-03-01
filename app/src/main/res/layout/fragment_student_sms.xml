@@ -8,39 +8,11 @@
     tools:context=".Fragments.StudentSmsFragment">
 
     <TextView
+        android:id="@+id/send_sms_school_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/monestro_bold"
         android:text="School"
-        android:textColor="#000"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/send_sms_school_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/monestro_regular"
-        android:text=""
-        android:textColor="#000"
-        android:textSize="14sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/monestro_bold"
-        android:text="Session"
-        android:textColor="#000"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/send_sms_session_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/monestro_regular"
-        android:text=""
         android:textColor="#000"
         android:textSize="14sp" />
 

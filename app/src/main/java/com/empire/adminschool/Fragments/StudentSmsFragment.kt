@@ -30,7 +30,6 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
     var studentAdapter: StudendsAdapter? = null
     var studentSpinner: Spinner? = null
     var school: TextView? = null
-    var session: TextView? = null
     var message: EditText? = null
     var sendButton: Button? = null
     var simType = 1
@@ -61,14 +60,13 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
         adapter = ClassesAdapter(requireActivity())
         classesSpinner!!.adapter = adapter
         school = view.findViewById(R.id.send_sms_school_tv)
-        session = view.findViewById(R.id.send_sms_session_tv)
         message = view.findViewById(R.id.send_sms_message_et)
         sendButton = view.findViewById(R.id.send_sms_btn)
         sendButton!!.setOnClickListener(this)
+        view.findViewById<LinearLayout>(R.id.send_sms_select_sim_ll).setOnClickListener(this)
 
         var mSchool = MyApplication.loginResponse!!.school
         school!!.text = mSchool.name
-        session!!.text = mSchool.current_session
 
         progressBar!!.visibility = View.VISIBLE
 
@@ -104,10 +102,6 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
         var isValid = true
 
         if (TextUtils.isEmpty(school!!.text.toString())){
-            isValid = false
-        }
-
-        if (TextUtils.isEmpty(session!!.text.toString())){
             isValid = false
         }
 

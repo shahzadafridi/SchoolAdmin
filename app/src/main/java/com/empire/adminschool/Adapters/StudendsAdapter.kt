@@ -41,7 +41,7 @@ class StudendsAdapter(context: Context) : BaseAdapter() {
         var retView: View
 
         if(convertView == null){
-            retView = LayoutInflater.from(mCtx).inflate(R.layout.row_classes_layout, null)
+            retView = LayoutInflater.from(mCtx).inflate(R.layout.row_students_layout, null)
             holder = MyViewHolder()
             holder.title = retView.findViewById(R.id.classes_title) as TextView?
             retView.tag = holder
