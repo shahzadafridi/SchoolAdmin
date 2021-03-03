@@ -24,7 +24,7 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
     val TAG = "StudentSmsFragment"
     private lateinit var viewModel: MainViewModel
     var classes: List<Classes> = arrayListOf()
-    var students: List<Student> = arrayListOf()
+    var students: MutableList<Student> = arrayListOf()
     var adapter: ClassesAdapter? = null
     var classesSpinner: Spinner? = null
     var studentAdapter: StudendsAdapter? = null
@@ -87,8 +87,10 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
         }
     }
 
-    override fun onGetStudents(students: List<Student>) {
-        this.students = students
+    override fun onGetStudents(list: List<Student>) {
+        students.clear()
+        students = list.toMutableList()
+        students.add(0, Student("","Name","","","Mobile","",false))
         studentAdapter!!.setStudentsList(students)
         progressBar!!.visibility = View.GONE
     }

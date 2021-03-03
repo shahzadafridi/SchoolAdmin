@@ -6,5 +6,6 @@ data class Student(
         val father: String,
         val guardian: String,
         val mobile: String,
-        val photo: String
+        val photo: String,
+        var isCheckBox: Boolean = false
 )
