@@ -134,9 +134,9 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
                     var phones: MutableList<String> = arrayListOf()
                     for (emp in employees)
                         phones.add(emp.mobile)
-                    viewModel.sendDirectSMS(
-                        requireActivity(), viewModel.getSIMProvider(simType, requireActivity()), message!!.text.toString(), phones
-                    )
+//                    viewModel.sendDirectSMS(
+//                        requireActivity(), viewModel.getSIMProvider(simType, requireActivity()), message!!.text.toString(), employees
+//                    )
                 }
             }
         }

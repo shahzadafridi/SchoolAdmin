@@ -36,7 +36,6 @@ class SMSFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.injectRepository(requireActivity())
-        viewModel.registerSMSBR(requireActivity())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

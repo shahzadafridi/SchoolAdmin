@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import com.empire.adminschool.MyApplication
 import com.empire.adminschool.R
 import com.empire.adminschool.Util.FragmentStack
 import com.empire.adminschool.ViewModels.MainViewModel
@@ -20,6 +22,7 @@ class MainFragment : Fragment(), View.OnClickListener {
     private lateinit var viewModel: MainViewModel
     var ivBack: ImageView? = null
     var ivSMS: ImageView? = null
+    var title: TextView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -36,10 +39,14 @@ class MainFragment : Fragment(), View.OnClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        title = view.findViewById(R.id.main_title)
         ivBack = view.findViewById(R.id.main_back)
         ivSMS = view.findViewById(R.id.main_sms_iv)
         ivBack!!.setOnClickListener(this)
         ivSMS!!.setOnClickListener(this)
+
+        var mSchool = MyApplication.loginResponse!!.school
+        title!!.text = mSchool.name
     }
 
     override fun onClick(p0: View?) {

@@ -1,6 +1,7 @@
 package com.empire.adminschool.Adapters
 
 import android.content.Context
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,15 @@ class StudendsAdapter(context: Context) : BaseAdapter() {
         notifyDataSetChanged()
     }
 
+    fun getSelectedStudents(): List<Student>{
+        var selectedStudentsList = arrayListOf<Student>()
+        for (s in list){
+            if (s.isCheckBox)
+                selectedStudentsList.add(s)
+        }
+        return selectedStudentsList
+    }
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var holder: MyViewHolder
         var retView: View
@@ -75,7 +85,8 @@ class StudendsAdapter(context: Context) : BaseAdapter() {
         }else{
             holder.name!!.text = item.name
             holder.mobile!!.text = item.mobile
-            Picasso.get().load(item.photo).into(holder.image)
+            if (!TextUtils.isEmpty(item.photo))
+                Picasso.get().load(item.photo).into(holder.image)
             holder.checkBox!!.setOnCheckedChangeListener { compoundButton, b ->
                 if (compoundButton.isPressed){
                     list.get(position).isCheckBox = b
