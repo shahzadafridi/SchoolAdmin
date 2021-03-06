@@ -103,7 +103,7 @@ class MainRepository(
                     if(res.status == 200){
                         var emps: MutableList<Employee> = arrayListOf()
                         for (cls in res.classes)
-                            emps.add(Employee(cls.id,cls.name,cls.father,cls.mobile))
+                            emps.add(Employee(cls.id,cls.name,cls.father,cls.mobile,"",false))
                         itrface.onGetEmployees(emps)
                     }
                 } else {
@@ -126,7 +126,7 @@ class MainRepository(
                     if(res.status == 200){
                         var emps: MutableList<Employee> = arrayListOf()
                         for (cls in res.classes)
-                            emps.add(Employee(cls.id,cls.name,cls.father,cls.mobile))
+                            emps.add(Employee(cls.id,cls.name,cls.father,cls.mobile,"",false))
                         itrface.onGetEmployees(emps)
                     }
                 } else {

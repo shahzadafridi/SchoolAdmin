@@ -198,13 +198,17 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
                 }
 
                 if (validation()) {
-                    progressBar!!.visibility = View.VISIBLE
                     selectedStudentsSize = studentAdapter!!.getSelectedStudents().size
                     selectedStudents = studentAdapter!!.getSelectedStudents().toMutableList()
-                    viewModel.sendDirectSMS(
-                        requireActivity(), viewModel.getSIMProvider(simType, requireActivity()),
-                            message!!.text.toString(), selectedStudents.get(0)
-                    )
+                    if (selectedStudentsSize > 0){
+                        progressBar!!.visibility = View.VISIBLE
+                        viewModel.sendDirectSMS(
+                                requireActivity(), viewModel.getSIMProvider(simType, requireActivity()),
+                                message!!.text.toString(), selectedStudents.get(0),null
+                        )
+                    }else{
+                        Toast.makeText(requireContext(),"Please select student to send sms",Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -225,7 +229,7 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
                             if (selectedStudents.size > 0)
                             viewModel.sendDirectSMS(
                                     requireActivity(), viewModel.getSIMProvider(simType, requireActivity()),
-                                    message!!.text.toString(), selectedStudents.get(0)
+                                    message!!.text.toString(), selectedStudents.get(0),null
                             )
                         }
 

@@ -54,6 +54,7 @@
             android:textSize="14sp" />
 
         <RadioGroup
+            android:id="@+id/send_sms_rg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -111,7 +112,7 @@
         android:id="@+id/send_sms_select_sim_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
         <ImageView

@@ -4,5 +4,7 @@ data class Employee(
     val id: String,
     val name: String,
     val father: String,
-    val mobile: String
+    val mobile: String,
+    val photo: String,
+    var isCheckBox: Boolean
 )

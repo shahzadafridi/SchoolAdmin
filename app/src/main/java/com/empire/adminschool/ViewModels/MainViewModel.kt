@@ -17,6 +17,7 @@ import androidx.lifecycle.viewModelScope
 import com.brikmas.balochtransport.Data.Network.RetrofitConstant
 import com.empire.adminschool.Data.MainRepository
 import com.empire.adminschool.EmployeeInterface
+import com.empire.adminschool.Models.Employee
 import com.empire.adminschool.Models.SentSMS
 import com.empire.adminschool.StudentInterface
 import com.empire.adminschool.Models.Student
@@ -78,12 +79,20 @@ class MainViewModel : ViewModel() {
         return sim
     }
 
-    fun sendDirectSMS(activity: Activity, sim: SubscriptionInfo?, smsText: String, student: Student) {
+    fun sendDirectSMS(activity: Activity, sim: SubscriptionInfo?, smsText: String, student: Student?, employee: Employee?) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-            var phone = student.mobile
+            var phone = ""
+            var name = ""
+            if (student != null){
+                phone = student.mobile
+                name = student.name
+            }else{
+                phone = employee!!.mobile
+                name = employee!!.name
+            }
             var sentIntent = Intent(SENT)
-            sentIntent.putExtra("name", student.name)
-            sentIntent.putExtra("mobile", student.mobile)
+            sentIntent.putExtra("name", name)
+            sentIntent.putExtra("mobile", phone)
             var delieverIntent = Intent(DELIVERED)
             var sentPI = PendingIntent.getBroadcast(activity, 0, Intent(SENT), 0)
             var deliveredPI = PendingIntent.getBroadcast(activity, 0, Intent(DELIVERED), 0)
