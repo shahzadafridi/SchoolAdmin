@@ -10,17 +10,17 @@
         android:id="@+id/main_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="36dp"
         android:layout_marginTop="48dp"
+        android:ellipsize="end"
+        android:lines="1"
         android:fontFamily="@font/monestro_bold"
         android:gravity="center_horizontal"
-        android:layout_marginLeft="36dp"
-        android:layout_marginRight="36dp"
-        android:ellipsize="end"
         android:text="DASHBOARD"
         android:textColor="#000"
         android:textSize="22sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline1"
-        app:layout_constraintEnd_toStartOf="@+id/main_setting"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toEndOf="@+id/main_back"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
@@ -34,15 +34,6 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/main_title" />
-
-    <ImageView
-        android:id="@+id/main_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_settings_24"
-        app:layout_constraintBottom_toBottomOf="@+id/main_title"
-        app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="@+id/main_title" />
 
     <ImageView

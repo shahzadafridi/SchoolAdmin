@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.brikmas.balochtransport.Data.Network.RetrofitConstant
 import com.empire.adminschool.Fragments.MainFragment
 import com.empire.adminschool.Models.LoginResponse
 import com.empire.adminschool.MyApplication
@@ -37,6 +38,11 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var baseUrl = Utility.provideSharedPreferences(this).getString("base_url",null)
+        baseUrl?.let {
+            RetrofitConstant.BASE_URL = it
+        }
 
         var loginResponse = Utility.provideSharedPreferences(this).getString("login_response",null)
         loginResponse?.let {

@@ -1,14 +1,16 @@
 package com.empire.adminschool.Activities
 
+import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ProgressBar
+import android.widget.*
 import androidx.lifecycle.ViewModelProvider
+import com.brikmas.balochtransport.Data.Network.RetrofitConstant
 import com.empire.adminschool.R
+import com.empire.adminschool.Util.Utility
 import com.empire.adminschool.ViewModels.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -19,16 +21,27 @@ class LoginActivity : AppCompatActivity() {
     var etPass: EditText? =  null
     var btLogin: Button? = null
     var progressBar: ProgressBar? = null
+    var settingIcon: ImageView? = null
+    var settingDialog: Dialog? = null
+    var baseUrl: EditText? = null
+    var rGroup: RadioGroup? = null
+    var save: Button? = null
+    var type: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
         viewModel.injectRepository(this)
+        settingIcon = findViewById(R.id.login_setting)
         progressBar = findViewById(R.id.login_progress)
         etEmail = findViewById(R.id.login_email_et)
         etPass = findViewById(R.id.login_pass_et)
         btLogin = findViewById(R.id.login_btn)
+        settingDialog = Utility.onCreateDialog(this,R.layout.setting_dialog_layout,false)
+        baseUrl = settingDialog!!.findViewById(R.id.app_setting_base_url)
+        rGroup = settingDialog!!.findViewById(R.id.app_setting_rg)
+        save = settingDialog!!.findViewById(R.id.app_setting_save)
         etEmail!!.setText("admin")
         etPass!!.setText("@admin#599")
         btLogin!!.setOnClickListener {
@@ -36,6 +49,32 @@ class LoginActivity : AppCompatActivity() {
                 progressBar!!.visibility = View.VISIBLE
                 viewModel.onUserLogin(etEmail!!.text.toString(),etPass!!.text.toString())
             }
+        }
+        settingIcon!!.setOnClickListener {
+            settingDialog!!.show()
+        }
+        rGroup!!.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.app_setting_rb1 -> {
+                    type = 1
+                }
+                R.id.app_setting_rb2 -> {
+                    type = 2
+                }
+            }
+        }
+        save!!.setOnClickListener {
+            if (!TextUtils.isEmpty(baseUrl!!.text.toString())){
+                Utility.provideSharedPreferences(this).edit()
+                        .putString("base_url",baseUrl!!.text.toString())
+                        .putInt("sim_type",type)
+                        .apply()
+                RetrofitConstant.BASE_URL = baseUrl!!.text.toString()
+            }
+            settingDialog!!.dismiss()
+        }
+        settingDialog!!.findViewById<ImageView>(R.id.app_setting_cancel).setOnClickListener {
+            settingDialog!!.dismiss()
         }
     }
 
@@ -56,5 +95,12 @@ class LoginActivity : AppCompatActivity() {
         return isValid
     }
 
+    override fun onStart() {
+        super.onStart()
+        var isLogin = Utility.provideSharedPreferences(this).getBoolean("isLogin",false)
+        if (isLogin){
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+    }
 
 }
