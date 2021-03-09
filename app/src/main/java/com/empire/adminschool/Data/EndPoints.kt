@@ -1,6 +1,8 @@
 package com.brikmas.balochtransport.Data.Network
 
 import com.empire.adminschool.Models.*
+import com.empire.adminschool.Models.attendence.AttendenceInResponse
+import com.empire.adminschool.Models.attendence.AttendenceOutResponse
 import com.empire.adminschool.Models.employee.EmployeeResponse
 import retrofit2.Call
 import retrofit2.http.*
@@ -16,7 +18,7 @@ interface EndPoints {
  http://masoodrehman.com/baloch/public/api/busService/seatHold
      */
 
-    @POST("api/user/login")
+    @POST("api/login")
     @FormUrlEncoded
     fun userLogin(
         @Field("username") username: String,
@@ -49,6 +51,37 @@ interface EndPoints {
         @Path("school_id") school_id: String,
     ): Call<EmployeeResponse>
 
+    @POST("api/addStudentSMSHistory")
+    @FormUrlEncoded
+    fun addStudentSmsHistory(
+        @Field("school") school: String,
+        @Field("student_name") student_name: String,
+        @Field("mobile") mobile: String,
+        @Field("message") message: String,
+        @Field("format") format: String
+    ): Call<LoginResponse>
+
+    @POST("api/addEmployeeSMSHistory")
+    @FormUrlEncoded
+    fun addEmployeeSmsHistory(
+        @Field("school") school: String,
+        @Field("employee_name") employee_name: String,
+        @Field("mobile") mobile: String,
+        @Field("message") message: String,
+        @Field("format") format: String
+    ): Call<LoginResponse>
+
+    @GET("api/attendance_in/{qr_code}/{school_id}")
+    fun attendanceIn(
+        @Path("qr_code") qr_code: String,
+        @Path("school_id") school_id: String,
+    ): Call<AttendenceInResponse>
+
+    @GET("api/attendance_out/{qr_code}/{school_id}")
+    fun attendanceOut(
+            @Path("qr_code") qr_code: String,
+            @Path("school_id") school_id: String,
+    ): Call<AttendenceOutResponse>
 
 //    @GET("api/user/profile")
 //    fun getUserProfile(@Query("id") id: String): Call<ProfileResponse>

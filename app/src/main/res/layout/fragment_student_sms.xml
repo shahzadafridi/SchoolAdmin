@@ -10,44 +10,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/monestro_bold"
-        android:text="School"
-        android:textColor="#000"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/send_sms_school_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/monestro_regular"
-        android:text=""
-        android:textColor="#000"
-        android:textSize="14sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/monestro_bold"
-        android:text="Session"
-        android:textColor="#000"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/send_sms_session_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/monestro_regular"
-        android:text=""
-        android:textColor="#000"
-        android:textSize="14sp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="25dp"
         android:fontFamily="@font/monestro_bold"
         android:text="Classes"
         android:textColor="#000"
@@ -57,7 +20,7 @@
         android:id="@+id/send_sms_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/spinner_bg" />
 
     <TextView
@@ -73,17 +36,50 @@
         android:id="@+id/send_sms_spinner_stdent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/spinner_bg" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/monestro_bold"
-        android:text="Message"
-        android:textColor="#000"
-        android:textSize="14sp" />
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/monestro_bold"
+            android:text="Message"
+            android:textColor="#000"
+            android:textSize="14sp" />
+
+        <RadioGroup
+            android:id="@+id/send_sms_rg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:text="English"
+                android:fontFamily="@font/monestro_bold"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Urdu"
+                android:fontFamily="@font/monestro_bold"
+                android:textColor="@color/black"
+                android:textSize="14sp"/>
+
+        </RadioGroup>
+
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -125,6 +121,7 @@
             android:src="@drawable/sim_card_icon" />
 
         <TextView
+            android:id="@+id/send_sms_select_sim_tv"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"

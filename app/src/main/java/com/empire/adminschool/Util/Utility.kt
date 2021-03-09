@@ -14,8 +14,6 @@ object Utility {
 
     fun onCreateDialog(context: Context, layout: Int, cancelable: Boolean): Dialog? {
         val metrics = context.resources.displayMetrics
-        val width = metrics.widthPixels
-        val height = metrics.heightPixels
         val dialog = Dialog(context, R.style.Theme_Dialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(layout)

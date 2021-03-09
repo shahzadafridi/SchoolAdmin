@@ -6,8 +6,8 @@ import android.util.Log
 import android.widget.Toast
 import com.brikmas.balochtransport.Data.Network.EndPoints
 import com.empire.adminschool.Activities.MainActivity
-import com.empire.adminschool.EmployeeInterface
-import com.empire.adminschool.StudentInterface
+import com.empire.adminschool.Interfaces.EmployeeInterface
+import com.empire.adminschool.Interfaces.StudentInterface
 import com.empire.adminschool.Models.ClassesResponse
 import com.empire.adminschool.Models.Employee
 import com.empire.adminschool.Models.LoginResponse
@@ -78,7 +78,10 @@ class MainRepository(
                 var res: StudentResponse? = response.body()
                 if (res != null) {
                     if(res.status == 200){
-                        itrface.onGetStudents(res.studetns)
+                        if(res.students != null)
+                            itrface.onGetStudents(res.students)
+                        else
+                            itrface.onError("No students found.")
                     }
                 } else {
                     itrface.onError("response body null.")
@@ -100,7 +103,7 @@ class MainRepository(
                     if(res.status == 200){
                         var emps: MutableList<Employee> = arrayListOf()
                         for (cls in res.classes)
-                            emps.add(Employee(cls.id,cls.name,cls.father,cls.mobile))
+                            emps.add(Employee(cls.id,cls.name,cls.father,cls.mobile,"",false))
                         itrface.onGetEmployees(emps)
                     }
                 } else {
@@ -123,7 +126,7 @@ class MainRepository(
                     if(res.status == 200){
                         var emps: MutableList<Employee> = arrayListOf()
                         for (cls in res.classes)
-                            emps.add(Employee(cls.id,cls.name,cls.father,cls.mobile))
+                            emps.add(Employee(cls.id,cls.name,cls.father,cls.mobile,"",false))
                         itrface.onGetEmployees(emps)
                     }
                 } else {
