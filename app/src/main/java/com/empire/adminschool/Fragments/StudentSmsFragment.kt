@@ -2,7 +2,6 @@ package com.empire.adminschool.Fragments
 
 import android.app.Activity
 import android.app.Dialog
-import android.app.ProgressDialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -16,8 +15,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
@@ -28,7 +25,7 @@ import com.empire.adminschool.Models.SentSMS
 import com.empire.adminschool.Models.Student
 import com.empire.adminschool.MyApplication
 import com.empire.adminschool.R
-import com.empire.adminschool.StudentInterface
+import com.empire.adminschool.Interfaces.StudentInterface
 import com.empire.adminschool.Util.AppPermissions
 import com.empire.adminschool.Util.Utility
 import com.empire.adminschool.ViewModels.MainViewModel

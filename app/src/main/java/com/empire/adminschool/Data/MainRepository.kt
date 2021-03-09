@@ -6,8 +6,8 @@ import android.util.Log
 import android.widget.Toast
 import com.brikmas.balochtransport.Data.Network.EndPoints
 import com.empire.adminschool.Activities.MainActivity
-import com.empire.adminschool.EmployeeInterface
-import com.empire.adminschool.StudentInterface
+import com.empire.adminschool.Interfaces.EmployeeInterface
+import com.empire.adminschool.Interfaces.StudentInterface
 import com.empire.adminschool.Models.ClassesResponse
 import com.empire.adminschool.Models.Employee
 import com.empire.adminschool.Models.LoginResponse

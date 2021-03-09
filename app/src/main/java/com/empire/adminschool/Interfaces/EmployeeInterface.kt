@@ -1,4 +1,4 @@
-package com.empire.adminschool
+package com.empire.adminschool.Interfaces
 
 import com.empire.adminschool.Models.Employee
 

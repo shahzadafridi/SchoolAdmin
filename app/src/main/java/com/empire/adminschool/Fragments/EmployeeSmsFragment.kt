@@ -17,16 +17,11 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
-import com.empire.adminschool.Adapters.ClassesAdapter
 import com.empire.adminschool.Adapters.EmployeesAdapter
-import com.empire.adminschool.Adapters.StudendsAdapter
 import com.empire.adminschool.Adapters.TypeStringAdapter
-import com.empire.adminschool.EmployeeInterface
-import com.empire.adminschool.StudentInterface
-import com.empire.adminschool.Models.Classes
+import com.empire.adminschool.Interfaces.EmployeeInterface
 import com.empire.adminschool.Models.Employee
 import com.empire.adminschool.Models.SentSMS
-import com.empire.adminschool.Models.Student
 import com.empire.adminschool.MyApplication
 import com.empire.adminschool.R
 import com.empire.adminschool.Util.Utility

@@ -22,6 +22,7 @@ class MainFragment : Fragment(), View.OnClickListener {
     private lateinit var viewModel: MainViewModel
     var ivBack: ImageView? = null
     var ivSMS: ImageView? = null
+    var ivAttendence: ImageView? = null
     var title: TextView? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +43,10 @@ class MainFragment : Fragment(), View.OnClickListener {
         title = view.findViewById(R.id.main_title)
         ivBack = view.findViewById(R.id.main_back)
         ivSMS = view.findViewById(R.id.main_sms_iv)
+        ivAttendence = view.findViewById(R.id.main_attend_iv)
         ivBack!!.setOnClickListener(this)
         ivSMS!!.setOnClickListener(this)
+        ivAttendence!!.setOnClickListener(this)
 
         var mSchool = MyApplication.loginResponse!!.school
         title!!.text = mSchool.name
@@ -59,7 +62,8 @@ class MainFragment : Fragment(), View.OnClickListener {
             }
 
             R.id.main_attend_iv -> {
-
+                FragmentStack.replaceFragmentToContainer(R.id.main_container,requireActivity().supportFragmentManager,
+                    AttendenceFragment(),"AttendenceFragment")
             }
 
             R.id.main_back -> {
