@@ -13,14 +13,18 @@ import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
+import com.empire.adminschool.Models.Student
 import com.empire.adminschool.MyApplication
 import com.empire.adminschool.R
+import com.empire.adminschool.Util.Utility
 import com.empire.adminschool.ViewModels.AttendenceViewModel
+import com.empire.adminschool.ViewModels.MainViewModel
 
 class AttendenceInOutFragment : Fragment() {
 
     val TAG = "AttendenceFragment"
     private lateinit var viewModel: AttendenceViewModel
+    private lateinit var mainViewModel: MainViewModel
     private lateinit var codeScanner: CodeScanner
     private var type = "in"
 
@@ -36,9 +40,16 @@ class AttendenceInOutFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(AttendenceViewModel::class.java)
         viewModel.injectRepository(requireActivity())
+        mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        mainViewModel.injectRepository(requireActivity())
+        var defaultSim = Utility.provideSharedPreferences(requireContext()).getInt("sim_type",1)
+        var sim = mainViewModel.getSIMProvider(defaultSim,requireActivity())
         viewModel.attendenceInLiveData.observe(viewLifecycleOwner,{
             if (it != null){
                 Toast.makeText(context,it.narration,Toast.LENGTH_LONG).show()
+                if (it.sms){
+                    mainViewModel.sendDirectSMS(requireActivity(),sim,it.sms_text, Student("","","","",it.mobile,"",false),null)
+                }
             }else{
                 Toast.makeText(context,"Attendence failed",Toast.LENGTH_LONG).show()
             }
@@ -46,6 +57,9 @@ class AttendenceInOutFragment : Fragment() {
         viewModel.attendenceOutLiveData.observe(viewLifecycleOwner,{
             if (it != null){
                 Toast.makeText(context,it.narration,Toast.LENGTH_LONG).show()
+                if (it.sms){
+                    mainViewModel.sendDirectSMS(requireActivity(),sim,it.sms_text, Student("","","","",it.mobile,"",false),null)
+                }
             }else{
                 Toast.makeText(context,"Attendence failed",Toast.LENGTH_LONG).show()
             }
