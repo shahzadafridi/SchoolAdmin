@@ -59,7 +59,7 @@ interface EndPoints {
         @Field("mobile") mobile: String,
         @Field("message") message: String,
         @Field("format") format: String
-    ): Call<LoginResponse>
+    ): Call<SMSHistoryResponse>
 
     @POST("api/addEmployeeSMSHistory")
     @FormUrlEncoded
@@ -69,7 +69,7 @@ interface EndPoints {
         @Field("mobile") mobile: String,
         @Field("message") message: String,
         @Field("format") format: String
-    ): Call<LoginResponse>
+    ): Call<SMSHistoryResponse>
 
     @GET("api/attendance_in/{qr_code}/{school_id}")
     fun attendanceIn(

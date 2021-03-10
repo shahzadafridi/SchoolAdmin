@@ -77,12 +77,14 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
 
         smsLiveData.observe(viewLifecycleOwner,{
             Log.e(TAG,"smsLiveData:" + it.status)
-            max!!.text = selectedStudentsSize.toString()
-            dialgoProgressBar!!.max = selectedStudentsSize
-            minimum!!.text = it.count.toString()
-            dialgoProgressBar!!.progress = it.count
-            if (selectedStudentsSize == it.count){
-                sendSMSDialog!!.dismiss()
+            it?.let {
+                max!!.text = selectedStudentsSize.toString()
+                dialgoProgressBar!!.max = selectedStudentsSize
+                minimum!!.text = it.count.toString()
+                dialgoProgressBar!!.progress = it.count
+                if (selectedStudentsSize == it.count){
+                    sendSMSDialog!!.dismiss()
+                }
             }
         })
     }
