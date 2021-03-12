@@ -11,6 +11,7 @@ import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
 import com.empire.adminschool.Activities.LoginActivity
+import com.empire.adminschool.Activities.MainActivity
 
 object Utility {
 
@@ -34,7 +35,7 @@ object Utility {
     }
 
     fun startMainActivity(context: Context){
-        var intent = Intent(context,LoginActivity::class.java).apply {
+        var intent = Intent(context,MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
         }
         context.startActivity(intent)
