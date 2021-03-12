@@ -49,6 +49,14 @@ class MainViewModel : ViewModel() {
         repository.onExEmployees(id, itrface)
     }
 
+    fun addStudentSmsHistory(school: String, student_name: String, mobile: String, message: String, format: String){
+        repository.onStudentSmsHistory(school,student_name,mobile,message,format)
+    }
+
+    fun addEmployeeSmsHistory(school: String, student_name: String, mobile: String, message: String, format: String){
+        repository.onStudentSmsHistory(school,student_name,mobile,message,format)
+    }
+
     fun getSIMProvider(simType: Int, activity: Activity): SubscriptionInfo? {
         var sim: SubscriptionInfo? = null
 

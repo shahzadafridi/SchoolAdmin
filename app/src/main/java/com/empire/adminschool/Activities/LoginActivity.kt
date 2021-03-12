@@ -97,10 +97,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        var isLogin = Utility.provideSharedPreferences(this).getBoolean("isLogin",false)
-        if (isLogin){
-            startActivity(Intent(this, MainActivity::class.java))
-        }
     }
 
 }

@@ -3,12 +3,15 @@ package com.empire.adminschool.Util
 import android.R
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
+import com.empire.adminschool.Activities.LoginActivity
+import com.empire.adminschool.Activities.MainActivity
 
 object Utility {
 
@@ -29,6 +32,20 @@ object Utility {
 
     fun provideSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(Constants.SHARED_PREF_NAME, Context.MODE_PRIVATE)
+    }
+
+    fun startMainActivity(context: Context){
+        var intent = Intent(context,MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        context.startActivity(intent)
+    }
+
+    fun startLoginActivity(context: Context){
+        var intent = Intent(context,LoginActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+        }
+        context.startActivity(intent)
     }
 
 }

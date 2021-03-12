@@ -8,10 +8,7 @@ import com.brikmas.balochtransport.Data.Network.EndPoints
 import com.empire.adminschool.Activities.MainActivity
 import com.empire.adminschool.Interfaces.EmployeeInterface
 import com.empire.adminschool.Interfaces.StudentInterface
-import com.empire.adminschool.Models.ClassesResponse
-import com.empire.adminschool.Models.Employee
-import com.empire.adminschool.Models.LoginResponse
-import com.empire.adminschool.Models.StudentResponse
+import com.empire.adminschool.Models.*
 import com.empire.adminschool.Models.employee.EmployeeResponse
 import com.empire.adminschool.Util.Utility
 import com.google.gson.Gson
@@ -38,7 +35,7 @@ class MainRepository(
                         putString("login_response", Gson().toJson(res)).
                         apply()
                         Toast.makeText(context,"Login successfully",Toast.LENGTH_SHORT).show()
-                        context.startActivity(Intent(context, MainActivity::class.java))
+                        Utility.startMainActivity(context)
                     }
                 } else {
                     Log.e(TAG, "response body null")
@@ -136,6 +133,46 @@ class MainRepository(
 
             override fun onFailure(call: Call<EmployeeResponse>, t: Throwable) {
                 itrface.onError(t.message.toString())
+            }
+        })
+    }
+
+    fun onStudentSmsHistory(school: String, student_name: String, mobile: String, message: String, format: String) {
+        apiEndpoints.addStudentSmsHistory(school,student_name,mobile,message,format).enqueue(object : retrofit2.Callback<SMSHistoryResponse> {
+
+            override fun onResponse(call: Call<SMSHistoryResponse>, response: Response<SMSHistoryResponse>) {
+                var res: SMSHistoryResponse? = response.body()
+                if (res != null) {
+                    if(res.status == 200){
+                        Log.e(TAG,res.message)
+                    }
+                } else {
+                    Log.e(TAG,"response body null.")
+                }
+            }
+
+            override fun onFailure(call: Call<SMSHistoryResponse>, t: Throwable) {
+                Log.e(TAG,t.message!!)
+            }
+        })
+    }
+
+    fun onEmpSmsHistory(school: String, employee_name: String, mobile: String, message: String, format: String) {
+        apiEndpoints.addEmployeeSmsHistory(school,employee_name,mobile,message,format).enqueue(object : retrofit2.Callback<SMSHistoryResponse> {
+
+            override fun onResponse(call: Call<SMSHistoryResponse>, response: Response<SMSHistoryResponse>) {
+                var res: SMSHistoryResponse? = response.body()
+                if (res != null) {
+                    if(res.status == 200){
+                        Log.e(TAG,res.message)
+                    }
+                } else {
+                    Log.e(TAG,"response body null.")
+                }
+            }
+
+            override fun onFailure(call: Call<SMSHistoryResponse>, t: Throwable) {
+                Log.e(TAG,t.message!!)
             }
         })
     }
