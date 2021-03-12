@@ -59,6 +59,7 @@ class AttendenceRepository(
                 if (res != null) {
                     if(res.status == 200){
                         Log.e(TAG,"attendence out successfully.")
+                        liveData.value = res
                     }
                 } else {
                     Log.e(TAG, "response body null")

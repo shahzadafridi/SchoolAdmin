@@ -1,10 +1,18 @@
 package com.empire.adminschool.Fragments
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
+import android.app.Dialog
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.budiyev.android.codescanner.AutoFocusMode
@@ -16,6 +24,7 @@ import com.budiyev.android.codescanner.ScanMode
 import com.empire.adminschool.Models.Student
 import com.empire.adminschool.MyApplication
 import com.empire.adminschool.R
+import com.empire.adminschool.Util.FragmentStack
 import com.empire.adminschool.Util.Utility
 import com.empire.adminschool.ViewModels.AttendenceViewModel
 import com.empire.adminschool.ViewModels.MainViewModel
@@ -26,6 +35,12 @@ class AttendenceInOutFragment : Fragment() {
     private lateinit var viewModel: AttendenceViewModel
     private lateinit var mainViewModel: MainViewModel
     private lateinit var codeScanner: CodeScanner
+    var attenDialog: Dialog? = null
+    var title: TextView? = null
+    var studentName: TextView? = null
+    var progressBar: ProgressBar? = null
+    var greenTick: ImageView? = null
+    var objectAnimator1: ObjectAnimator? = null
     private var type = "in"
 
     override fun onCreateView(
@@ -42,11 +57,35 @@ class AttendenceInOutFragment : Fragment() {
         viewModel.injectRepository(requireActivity())
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         mainViewModel.injectRepository(requireActivity())
+
+        attenDialog = Utility.onCreateDialog(requireContext(),R.layout.attendence_dialog,false)
+        title = attenDialog!!.findViewById(R.id.attend_dialog_title)
+        studentName = attenDialog!!.findViewById(R.id.atten_dialog_name)
+        progressBar = attenDialog!!.findViewById(R.id.atten_dialog_prog)
+        greenTick = attenDialog!!.findViewById(R.id.atten_dialog_green_tick)
+        objectAnimator1 = ObjectAnimator.ofInt(progressBar, "progress", 100)
+        objectAnimator1!!.setDuration(2000)
+        objectAnimator1!!.addListener(object: Animator.AnimatorListener{
+            override fun onAnimationStart(animation: Animator?) { }
+            override fun onAnimationEnd(animation: Animator?) {
+                greenTick!!.visibility = View.VISIBLE
+                Handler(Looper.getMainLooper()).postDelayed({
+                    attenDialog!!.dismiss()
+                    requireActivity().onBackPressed()
+                },3000)
+            }
+            override fun onAnimationCancel(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator?) {}
+
+        })
+
         var defaultSim = Utility.provideSharedPreferences(requireContext()).getInt("sim_type",1)
         var sim = mainViewModel.getSIMProvider(defaultSim,requireActivity())
         viewModel.attendenceInLiveData.observe(viewLifecycleOwner,{
             if (it != null){
-                Toast.makeText(context,it.narration,Toast.LENGTH_LONG).show()
+                attenDialog!!.show()
+                studentName!!.text = it.narration
+                objectAnimator1!!.start()
                 if (it.sms){
                     mainViewModel.sendDirectSMS(requireActivity(),sim,it.sms_text, Student("","","","",it.mobile,"",false),null)
                 }
@@ -56,9 +95,13 @@ class AttendenceInOutFragment : Fragment() {
         })
         viewModel.attendenceOutLiveData.observe(viewLifecycleOwner,{
             if (it != null){
-                Toast.makeText(context,it.narration,Toast.LENGTH_LONG).show()
+                attenDialog!!.show()
+                studentName!!.text = it.narration
+                objectAnimator1!!.start()
                 if (it.sms){
                     mainViewModel.sendDirectSMS(requireActivity(),sim,it.sms_text, Student("","","","",it.mobile,"",false),null)
+                    onPause()
+                    requireActivity().onBackPressed()
                 }
             }else{
                 Toast.makeText(context,"Attendence failed",Toast.LENGTH_LONG).show()
