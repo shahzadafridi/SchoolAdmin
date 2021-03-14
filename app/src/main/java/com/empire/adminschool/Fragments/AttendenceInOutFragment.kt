@@ -35,6 +35,7 @@ class AttendenceInOutFragment : Fragment() {
     private lateinit var viewModel: AttendenceViewModel
     private lateinit var mainViewModel: MainViewModel
     private lateinit var codeScanner: CodeScanner
+    var attenChangeCamera: ImageView? = null
     var attenDialog: Dialog? = null
     var title: TextView? = null
     var studentName: TextView? = null
@@ -57,7 +58,6 @@ class AttendenceInOutFragment : Fragment() {
         viewModel.injectRepository(requireActivity())
         mainViewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         mainViewModel.injectRepository(requireActivity())
-
         attenDialog = Utility.onCreateDialog(requireContext(),R.layout.attendence_dialog,false)
         title = attenDialog!!.findViewById(R.id.attend_dialog_title)
         studentName = attenDialog!!.findViewById(R.id.atten_dialog_name)
@@ -114,11 +114,11 @@ class AttendenceInOutFragment : Fragment() {
 
         type = requireArguments().getString("type","in")
         val scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
-
+        attenChangeCamera = view.findViewById(R.id.atten_change_camera)
         codeScanner = CodeScanner(requireContext(), scannerView)
 
         // Parameters (default values)
-        codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
+        codeScanner.camera = CodeScanner.CAMERA_FRONT // or CAMERA_FRONT or specific camera id
         codeScanner.formats = CodeScanner.ALL_FORMATS // list of type BarcodeFormat,
         // ex. listOf(BarcodeFormat.QR_CODE)
         codeScanner.autoFocusMode = AutoFocusMode.SAFE // or CONTINUOUS
@@ -144,6 +144,14 @@ class AttendenceInOutFragment : Fragment() {
 
         scannerView.setOnClickListener {
             codeScanner.startPreview()
+        }
+
+        attenChangeCamera!!.setOnClickListener {
+            if (codeScanner.camera == 1){
+                codeScanner.camera = CodeScanner.CAMERA_BACK // or CAMERA_FRONT or specific camera id
+            }else{
+                codeScanner.camera = CodeScanner.CAMERA_FRONT // or CAMERA_FRONT or specific camera id
+            }
         }
     }
 

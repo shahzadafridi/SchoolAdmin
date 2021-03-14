@@ -1,4 +1,4 @@
-package com.brikmas.balochtransport.Data.Network
+package com.empire.adminschool.Data.Remote
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

@@ -1,29 +1,17 @@
-package com.empire.adminschool.Data
+package com.empire.adminschool.Data.Repositories
 
 import android.content.Context
-import android.content.Intent
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
-import com.brikmas.balochtransport.Data.Network.EndPoints
-import com.empire.adminschool.Activities.MainActivity
-import com.empire.adminschool.Interfaces.EmployeeInterface
-import com.empire.adminschool.Interfaces.StudentInterface
-import com.empire.adminschool.Models.ClassesResponse
-import com.empire.adminschool.Models.Employee
-import com.empire.adminschool.Models.LoginResponse
-import com.empire.adminschool.Models.StudentResponse
+import com.empire.adminschool.Data.Remote.EndPoints
 import com.empire.adminschool.Models.attendence.AttendenceInResponse
 import com.empire.adminschool.Models.attendence.AttendenceOutResponse
-import com.empire.adminschool.Models.employee.EmployeeResponse
-import com.empire.adminschool.Util.Utility
-import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Response
 
 class AttendenceRepository(
-    val apiEndpoints: EndPoints,
-    val context: Context
+        val apiEndpoints: EndPoints,
+        val context: Context
 ) {
 
     val TAG = "MainRepository"

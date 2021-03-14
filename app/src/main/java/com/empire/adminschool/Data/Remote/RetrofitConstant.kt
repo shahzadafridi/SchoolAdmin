@@ -1,4 +1,4 @@
-package com.brikmas.balochtransport.Data.Network
+package com.empire.adminschool.Data.Remote
 
 class RetrofitConstant {
     companion object{

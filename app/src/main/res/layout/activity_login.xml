@@ -75,12 +75,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline4" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:background="@drawable/black_rect_bg"
+        android:background="@drawable/green_rect_bg"
         android:fontFamily="@font/monestro_bold"
         android:text="Login"
         android:textColor="#fff"

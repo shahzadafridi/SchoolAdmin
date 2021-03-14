@@ -2,8 +2,8 @@ package com.empire.adminschool.ViewModels
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
-import com.brikmas.balochtransport.Data.Network.RetrofitConstant
-import com.empire.adminschool.Data.MainRepository
+import com.empire.adminschool.Data.Repositories.MainRepository
+import com.empire.adminschool.Data.Remote.RetrofitConstant
 
 class LoginViewModel() : ViewModel() {
 

@@ -1,11 +1,14 @@
 package com.empire.adminschool.Fragments
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.telephony.SmsManager
 import android.text.TextUtils
 import android.util.Log
@@ -49,6 +52,13 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
     var counter = 0
     var selectedEmployeeSize = 0
     var status: String = ""
+    var sendSMSDialog: Dialog? = null
+    var name: TextView? = null
+    var messageStatus: TextView? = null
+    var dialgoProgressBar: ProgressBar? = null
+    var minimum: TextView? = null
+    var max: TextView? = null
+    var greenTickLL: LinearLayout? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +73,21 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
         viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
         viewModel.injectRepository(requireActivity())
         viewModel.getEmployeeTypes(this)
+        registerSMSBR(requireActivity())
+        smsLiveData.observe(viewLifecycleOwner,{
+            Log.e(TAG,"smsLiveData:" + it.status)
+            it?.let {
+                minimum!!.text = it.count.toString()
+                dialgoProgressBar!!.progress = it.count
+                messageStatus!!.text = it.status+ " to " + it.name
+                if (counter == dialgoProgressBar!!.max){
+                    greenTickLL!!.visibility = View.VISIBLE
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        sendSMSDialog!!.dismiss()
+                    },4000)
+                }
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,6 +102,7 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
         message = view.findViewById(R.id.employee_message_et)
         selectedSimTv = view.findViewById(R.id.emp_send_sms_select_sim_tv)
         view.findViewById<LinearLayout>(R.id.employee_select_sim_ll).setOnClickListener(this)
+        view.findViewById<ImageView>(R.id.employee_sms_back).setOnClickListener(this)
         selectedSimTv!!.text = "SIM 1"
         sendButton = view.findViewById(R.id.employee_send_btn)
         sendButton!!.setOnClickListener(this)
@@ -92,6 +118,15 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
+
+        //Send SMS Dialog.
+        sendSMSDialog = Utility.onCreateDialog(requireContext(),R.layout.progress_dialog_layout,false)
+        name = sendSMSDialog!!.findViewById<TextView>(R.id.progress_dialog_name)
+        messageStatus = sendSMSDialog!!.findViewById<TextView>(R.id.progress_dialog_message)
+        dialgoProgressBar = sendSMSDialog!!.findViewById<ProgressBar>(R.id.progress_dialog_pbar)
+        minimum = sendSMSDialog!!.findViewById<TextView>(R.id.progress_dialog_min)
+        max = sendSMSDialog!!.findViewById<TextView>(R.id.progress_dialog_max)
+        greenTickLL = sendSMSDialog!!.findViewById(R.id.progress_dialog_green_tick_ll)
     }
 
     override fun onGetEmployees(list: List<Employee>) {
@@ -163,8 +198,14 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
                 if (validation()){
                     selectedEmployeeSize = employeeAdapter!!.getSelectedEmployee().size
                     selectedEmployees = employeeAdapter!!.getSelectedEmployee().toMutableList()
+                    if (selectedEmployees.get(0).mobile.contentEquals("Mobile")){
+                        selectedEmployees.removeAt(0)
+                    }
+                    max!!.text = selectedEmployeeSize.toString()
+                    dialgoProgressBar!!.progress = 0
+                    dialgoProgressBar!!.max = selectedEmployeeSize
                     if (selectedEmployeeSize > 0){
-                        progressBar!!.visibility = View.VISIBLE
+                        sendSMSDialog!!.show()
                         viewModel.sendDirectSMS(
                                 requireActivity(), viewModel.getSIMProvider(simType, requireActivity()),
                                 message!!.text.toString(), null, selectedEmployees.get(0)
@@ -173,6 +214,10 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
                         Toast.makeText(requireContext(),"Please select employee to send sms",Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+
+            R.id.employee_sms_back -> {
+                requireActivity().onBackPressed()
             }
         }
     }
@@ -186,36 +231,41 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
                     AppCompatActivity.RESULT_OK -> {
                         counter = counter + 1
                         status = "Sent successfully"
-                        smsLiveData.value = SentSMS(counter,status)
                         if (selectedEmployees.size > 0){
+                            smsLiveData.value = SentSMS(counter,status,selectedEmployees[0].name)
                             selectedEmployees.removeAt(0)
                             if (selectedEmployees.size > 0)
                                 viewModel.sendDirectSMS(
                                         requireActivity(), viewModel.getSIMProvider(simType, requireActivity()),
                                         message!!.text.toString(),null, selectedEmployees.get(0)
                                 )
+                        }else{
+                            greenTickLL!!.visibility = View.VISIBLE
+                            Handler(Looper.getMainLooper()).postDelayed({
+                                sendSMSDialog!!.dismiss()
+                            },2000)
                         }
 
                         Log.e("test","SEND_REMINDER_SMS_APP_SUCCESS ")
                     }
                     SmsManager.RESULT_ERROR_GENERIC_FAILURE -> {
-                        status = "Sent failed"
-                        smsLiveData.value = SentSMS(counter,status)
+                        status = "Message sent failed"
+                        smsLiveData.value = SentSMS(counter,status,"")
                         Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_NO_SERVICE -> {
-                        status = "Error no service"
-                        smsLiveData.value = SentSMS(counter,status)
+                        status = "Message sent failed"
+                        smsLiveData.value = SentSMS(counter,status,"")
                         Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_NULL_PDU -> {
-                        status = "Error no service"
-                        smsLiveData.value = SentSMS(counter,status)
+                        status = "Message sent failed"
+                        smsLiveData.value = SentSMS(counter,status,"")
                         Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_RADIO_OFF -> {
-                        status = "Error no service"
-                        smsLiveData.value = SentSMS(counter,status)
+                        status = "Message sent failed"
+                        smsLiveData.value = SentSMS(counter,status,"")
                         Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
                     }
                 }
@@ -226,8 +276,8 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
         val deliverSMSBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(arg0: Context?, arg1: Intent?) {
                 when (resultCode) {
-                    AppCompatActivity.RESULT_OK -> Toast.makeText(activity, "Sms delivered", Toast.LENGTH_SHORT).show()
-                    AppCompatActivity.RESULT_CANCELED -> Toast.makeText(activity, "Sms not delivered", Toast.LENGTH_SHORT).show()
+                    AppCompatActivity.RESULT_OK -> Toast.makeText(activity, "Message delivered", Toast.LENGTH_SHORT).show()
+                    AppCompatActivity.RESULT_CANCELED -> Toast.makeText(activity, "Message not delivered", Toast.LENGTH_SHORT).show()
                 }
             }
         }

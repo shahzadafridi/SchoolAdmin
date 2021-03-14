@@ -81,14 +81,14 @@
 
         </LinearLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/sim_dialog_cancel"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="36dp"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
-            android:background="@drawable/black_rect_bg"
+            android:background="@drawable/green_rect_bg"
             android:fontFamily="@font/monestro_bold"
             android:text="Cancel"
             android:textColor="#fff"

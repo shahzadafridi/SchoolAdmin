@@ -51,6 +51,10 @@ class SMSFragment : Fragment() {
                 StudentSmsFragment(),"StudentSmsFragment")
         }
 
+        view.findViewById<ImageView>(R.id.sms_frag_back).setOnClickListener {
+            requireActivity().onBackPressed()
+        }
+
     }
 
 }

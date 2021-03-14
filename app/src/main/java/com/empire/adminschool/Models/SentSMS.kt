@@ -6,5 +6,6 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class SentSMS(
         val count: Int,
-        val status: String
+        val status: String,
+        val name: String
 ): Parcelable

@@ -1,14 +1,13 @@
 package com.empire.adminschool.Activities
 
 import android.app.Dialog
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
-import com.brikmas.balochtransport.Data.Network.RetrofitConstant
+import com.empire.adminschool.Data.Remote.RetrofitConstant
 import com.empire.adminschool.R
 import com.empire.adminschool.Util.Utility
 import com.empire.adminschool.ViewModels.LoginViewModel
