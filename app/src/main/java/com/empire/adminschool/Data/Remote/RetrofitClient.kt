@@ -1,4 +1,4 @@
-package com.empire.adminschool.Data
+package com.empire.adminschool.Data.Remote
 
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

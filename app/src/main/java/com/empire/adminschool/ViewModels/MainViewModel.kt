@@ -10,8 +10,8 @@ import android.telephony.SubscriptionManager
 import android.util.Log
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
-import com.brikmas.balochtransport.Data.Network.RetrofitConstant
-import com.empire.adminschool.Data.MainRepository
+import com.empire.adminschool.Data.Repositories.MainRepository
+import com.empire.adminschool.Data.Remote.RetrofitConstant
 import com.empire.adminschool.Interfaces.EmployeeInterface
 import com.empire.adminschool.Models.Employee
 import com.empire.adminschool.Interfaces.StudentInterface

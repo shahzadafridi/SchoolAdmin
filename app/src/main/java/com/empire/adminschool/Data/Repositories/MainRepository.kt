@@ -1,11 +1,9 @@
-package com.empire.adminschool.Data
+package com.empire.adminschool.Data.Repositories
 
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import com.brikmas.balochtransport.Data.Network.EndPoints
-import com.empire.adminschool.Activities.MainActivity
+import com.empire.adminschool.Data.Remote.EndPoints
 import com.empire.adminschool.Interfaces.EmployeeInterface
 import com.empire.adminschool.Interfaces.StudentInterface
 import com.empire.adminschool.Models.*
@@ -16,8 +14,8 @@ import retrofit2.Call
 import retrofit2.Response
 
 class MainRepository(
-    val apiEndpoints: EndPoints,
-    val context: Context
+        val apiEndpoints: EndPoints,
+        val context: Context
 ) {
 
     val TAG = "MainRepository"
@@ -36,6 +34,8 @@ class MainRepository(
                         apply()
                         Toast.makeText(context,"Login successfully",Toast.LENGTH_SHORT).show()
                         Utility.startMainActivity(context)
+                    }else if (res.status == 401){
+                        Toast.makeText(context,"No permission to user app or service not available",Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Log.e(TAG, "response body null")

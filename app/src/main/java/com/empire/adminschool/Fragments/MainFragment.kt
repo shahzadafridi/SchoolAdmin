@@ -34,7 +34,7 @@ class MainFragment : Fragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        var root = inflater.inflate(R.layout.main_fragment, container, false)
+        var root = inflater.inflate(R.layout.fragment_main, container, false)
         return root
     }
 
