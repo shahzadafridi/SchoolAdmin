@@ -34,8 +34,16 @@ class MainRepository(
                         apply()
                         Toast.makeText(context,"Login successfully",Toast.LENGTH_SHORT).show()
                         Utility.startMainActivity(context)
+                    }else if (res.status == 400){
+                        Toast.makeText(context,"The server could not understand the request due to invalid syntax.",Toast.LENGTH_SHORT).show()
                     }else if (res.status == 401){
-                        Toast.makeText(context,"No permission to user app or service not available",Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context,"The client must authenticate itself to get the requested response",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 403){
+                        Toast.makeText(context,"The client does not have access rights to the content.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 503){
+                        Toast.makeText(context,"The server is not ready to handle the request.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 404){
+                        Toast.makeText(context,"The server can not find the requested resource.",Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Log.e(TAG, "response body null")
@@ -56,6 +64,16 @@ class MainRepository(
                 if (res != null) {
                     if(res.status == 200){
                         itrface.onGetClasses(res.classes)
+                    }else if (res.status == 400){
+                        Toast.makeText(context,"The server could not understand the request due to invalid syntax.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 401){
+                        Toast.makeText(context,"The client must authenticate itself to get the requested response",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 403){
+                        Toast.makeText(context,"The client does not have access rights to the content.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 503){
+                        Toast.makeText(context,"The server is not ready to handle the request.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 404){
+                        Toast.makeText(context,"The server can not find the requested resource.",Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     itrface.onError("response body null.")
@@ -79,6 +97,16 @@ class MainRepository(
                             itrface.onGetStudents(res.students)
                         else
                             itrface.onError("No students found.")
+                    }else if (res.status == 400){
+                        Toast.makeText(context,"The server could not understand the request due to invalid syntax.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 401){
+                        Toast.makeText(context,"The client must authenticate itself to get the requested response",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 403){
+                        Toast.makeText(context,"The client does not have access rights to the content.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 503){
+                        Toast.makeText(context,"The server is not ready to handle the request.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 404){
+                        Toast.makeText(context,"The server can not find the requested resource.",Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     itrface.onError("response body null.")
@@ -102,6 +130,16 @@ class MainRepository(
                         for (cls in res.classes)
                             emps.add(Employee(cls.id,cls.name,cls.father,cls.mobile,"",false))
                         itrface.onGetEmployees(emps)
+                    }else if (res.status == 400){
+                        Toast.makeText(context,"The server could not understand the request due to invalid syntax.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 401){
+                        Toast.makeText(context,"The client must authenticate itself to get the requested response",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 403){
+                        Toast.makeText(context,"The client does not have access rights to the content.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 503){
+                        Toast.makeText(context,"The server is not ready to handle the request.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 404){
+                        Toast.makeText(context,"The server can not find the requested resource.",Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     itrface.onError("response body null.")
@@ -125,6 +163,16 @@ class MainRepository(
                         for (cls in res.classes)
                             emps.add(Employee(cls.id,cls.name,cls.father,cls.mobile,"",false))
                         itrface.onGetEmployees(emps)
+                    }else if (res.status == 400){
+                        Toast.makeText(context,"The server could not understand the request due to invalid syntax.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 401){
+                        Toast.makeText(context,"The client must authenticate itself to get the requested response",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 403){
+                        Toast.makeText(context,"The client does not have access rights to the content.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 503){
+                        Toast.makeText(context,"The server is not ready to handle the request.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 404){
+                        Toast.makeText(context,"The server can not find the requested resource.",Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     itrface.onError("response body null.")
@@ -145,6 +193,16 @@ class MainRepository(
                 if (res != null) {
                     if(res.status == 200){
                         Log.e(TAG,res.message)
+                    }else if (res.status == 400){
+                        Toast.makeText(context,"The server could not understand the request due to invalid syntax.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 401){
+                        Toast.makeText(context,"The client must authenticate itself to get the requested response",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 403){
+                        Toast.makeText(context,"The client does not have access rights to the content.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 503){
+                        Toast.makeText(context,"The server is not ready to handle the request.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 404){
+                        Toast.makeText(context,"The server can not find the requested resource.",Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Log.e(TAG,"response body null.")
@@ -165,6 +223,16 @@ class MainRepository(
                 if (res != null) {
                     if(res.status == 200){
                         Log.e(TAG,res.message)
+                    }else if (res.status == 400){
+                        Toast.makeText(context,"The server could not understand the request due to invalid syntax.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 401){
+                        Toast.makeText(context,"The client must authenticate itself to get the requested response",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 403){
+                        Toast.makeText(context,"The client does not have access rights to the content.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 503){
+                        Toast.makeText(context,"The server is not ready to handle the request.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 404){
+                        Toast.makeText(context,"The server can not find the requested resource.",Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Log.e(TAG,"response body null.")

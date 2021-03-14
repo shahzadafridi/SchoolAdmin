@@ -2,6 +2,7 @@ package com.empire.adminschool.Data.Repositories
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.empire.adminschool.Data.Remote.EndPoints
 import com.empire.adminschool.Models.attendence.AttendenceInResponse
@@ -25,6 +26,16 @@ class AttendenceRepository(
                     if(res.status == 200){
                         Log.e(TAG,"attendence in successfully.")
                         liveData.value = res
+                    }else if (res.status == 400){
+                        Toast.makeText(context,"The server could not understand the request due to invalid syntax.", Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 401){
+                        Toast.makeText(context,"The client must authenticate itself to get the requested response", Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 403){
+                        Toast.makeText(context,"The client does not have access rights to the content.", Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 503){
+                        Toast.makeText(context,"The server is not ready to handle the request.", Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 404){
+                        Toast.makeText(context,"The server can not find the requested resource.", Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Log.e(TAG, "response body null")
@@ -48,6 +59,16 @@ class AttendenceRepository(
                     if(res.status == 200){
                         Log.e(TAG,"attendence out successfully.")
                         liveData.value = res
+                    }else if (res.status == 400){
+                        Toast.makeText(context,"The server could not understand the request due to invalid syntax.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 401){
+                        Toast.makeText(context,"The client must authenticate itself to get the requested response",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 403){
+                        Toast.makeText(context,"The client does not have access rights to the content.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 503){
+                        Toast.makeText(context,"The server is not ready to handle the request.",Toast.LENGTH_SHORT).show()
+                    }else if (res.status == 404){
+                        Toast.makeText(context,"The server can not find the requested resource.",Toast.LENGTH_SHORT).show()
                     }
                 } else {
                     Log.e(TAG, "response body null")

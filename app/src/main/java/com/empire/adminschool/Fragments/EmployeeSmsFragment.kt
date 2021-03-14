@@ -103,7 +103,11 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
         selectedSimTv = view.findViewById(R.id.emp_send_sms_select_sim_tv)
         view.findViewById<LinearLayout>(R.id.employee_select_sim_ll).setOnClickListener(this)
         view.findViewById<ImageView>(R.id.employee_sms_back).setOnClickListener(this)
-        selectedSimTv!!.text = "SIM 1"
+        simType =  Utility.provideSharedPreferences(requireContext()).getInt("sim_type",1)
+        if (simType == 1)
+            selectedSimTv!!.text = "SIM 1"
+        else
+            selectedSimTv!!.text = "SIM 2"
         sendButton = view.findViewById(R.id.employee_send_btn)
         sendButton!!.setOnClickListener(this)
         progressBar!!.visibility = View.VISIBLE

@@ -18,6 +18,7 @@ import com.empire.adminschool.Models.Employee
 import com.empire.adminschool.Interfaces.StudentInterface
 import com.empire.adminschool.Models.Student
 import com.empire.adminschool.Util.AppPermissions
+import com.empire.adminschool.Util.Utility
 
 class MainViewModel : ViewModel() {
 
@@ -25,28 +26,39 @@ class MainViewModel : ViewModel() {
     val SENT = "SMS_SENT"
     val DELIVERED = "SMS_DELIVERED"
     lateinit var repository: MainRepository
+    var activity: FragmentActivity? = null
 
     fun injectRepository(activity: FragmentActivity) {
-        repository = MainRepository(RetrofitConstant.getEndPoints(), activity)
+        this.activity = activity
     }
 
     fun getClasses(id: String, itrface: StudentInterface) {
+        RetrofitConstant.BASE_URL = Utility.provideSharedPreferences(activity!!).getString("base_url",RetrofitConstant.BASE_URL)!!
+        repository = MainRepository(RetrofitConstant.getEndPoints(), activity!!)
         repository.onClasses(id, itrface)
     }
 
     fun getStudents(cls: String, session: String, itrface: StudentInterface) {
+        RetrofitConstant.BASE_URL = Utility.provideSharedPreferences(activity!!).getString("base_url",RetrofitConstant.BASE_URL)!!
+        repository = MainRepository(RetrofitConstant.getEndPoints(), activity!!)
         repository.onStudents(cls, session, itrface)
     }
 
     fun getEmployeeTypes(employeeInterface: EmployeeInterface) {
+        RetrofitConstant.BASE_URL = Utility.provideSharedPreferences(activity!!).getString("base_url",RetrofitConstant.BASE_URL)!!
+        repository = MainRepository(RetrofitConstant.getEndPoints(), activity!!)
         employeeInterface.onGetEmployeeTypes(arrayListOf("Current", "Ex"))
     }
 
     fun getCurrentEmployees(id: String, itrface: EmployeeInterface) {
+        RetrofitConstant.BASE_URL = Utility.provideSharedPreferences(activity!!).getString("base_url",RetrofitConstant.BASE_URL)!!
+        repository = MainRepository(RetrofitConstant.getEndPoints(), activity!!)
         repository.onCurrentEmployees(id, itrface)
     }
 
     fun getExEmployees(id: String, itrface: EmployeeInterface) {
+        RetrofitConstant.BASE_URL = Utility.provideSharedPreferences(activity!!).getString("base_url",RetrofitConstant.BASE_URL)!!
+        repository = MainRepository(RetrofitConstant.getEndPoints(), activity!!)
         repository.onExEmployees(id, itrface)
     }
 
