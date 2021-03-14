@@ -8,25 +8,21 @@ import java.util.concurrent.TimeUnit
 
 class RetrofitClient {
 
-    companion object{
-        var retrofit: Retrofit? = null
+    companion object {
 
         var okHttpClient = OkHttpClient().newBuilder()
-            .connectTimeout(3, TimeUnit.MINUTES)
-            .readTimeout(3, TimeUnit.MINUTES)
-            .writeTimeout(3, TimeUnit.MINUTES)
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
-            .build()
+                .connectTimeout(3, TimeUnit.MINUTES)
+                .readTimeout(3, TimeUnit.MINUTES)
+                .writeTimeout(3, TimeUnit.MINUTES)
+                .addInterceptor(HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                })
+                .build()
 
         fun getClient(baseUrl: String): Retrofit? {
-            if (retrofit == null) {
-                retrofit = Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)
+            return Retrofit.Builder().baseUrl(baseUrl).client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build()
-            }
-            return retrofit
         }
     }
 }

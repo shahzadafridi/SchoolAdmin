@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.util.Patterns
 import android.view.Gravity
 import android.view.Window
 import android.view.WindowManager
@@ -47,5 +48,7 @@ object Utility {
         }
         context.startActivity(intent)
     }
+
+    fun String.isValidUrl(): Boolean = Patterns.WEB_URL.matcher(this).matches()
 
 }

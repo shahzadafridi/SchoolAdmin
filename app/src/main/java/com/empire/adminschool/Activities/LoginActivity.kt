@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.empire.adminschool.Data.Remote.RetrofitConstant
 import com.empire.adminschool.R
 import com.empire.adminschool.Util.Utility
+import com.empire.adminschool.Util.Utility.isValidUrl
 import com.empire.adminschool.ViewModels.LoginViewModel
 
 class LoginActivity : AppCompatActivity() {
@@ -41,6 +42,11 @@ class LoginActivity : AppCompatActivity() {
         baseUrl = settingDialog!!.findViewById(R.id.app_setting_base_url)
         rGroup = settingDialog!!.findViewById(R.id.app_setting_rg)
         save = settingDialog!!.findViewById(R.id.app_setting_save)
+        var base_url = Utility.provideSharedPreferences(this).getString("base_url",null)
+        base_url?.let {
+            baseUrl!!.setText(it)
+            RetrofitConstant.BASE_URL = it
+        }
         etEmail!!.setText("admin")
         etPass!!.setText("@admin#599")
         btLogin!!.setOnClickListener {
@@ -64,13 +70,22 @@ class LoginActivity : AppCompatActivity() {
         }
         save!!.setOnClickListener {
             if (!TextUtils.isEmpty(baseUrl!!.text.toString())){
+                if (!baseUrl!!.text.toString().isValidUrl()) {
+                    Toast.makeText(this,"Enter valid url",Toast.LENGTH_LONG).show()
+                }else{
+                    Utility.provideSharedPreferences(this).edit()
+                            .putString("base_url",baseUrl!!.text.toString())
+                            .putInt("sim_type",type)
+                            .apply()
+                    RetrofitConstant.BASE_URL = baseUrl!!.text.toString()
+                    settingDialog!!.dismiss()
+                }
+            }else{
                 Utility.provideSharedPreferences(this).edit()
-                        .putString("base_url",baseUrl!!.text.toString())
                         .putInt("sim_type",type)
                         .apply()
-                RetrofitConstant.BASE_URL = baseUrl!!.text.toString()
+                settingDialog!!.dismiss()
             }
-            settingDialog!!.dismiss()
         }
         settingDialog!!.findViewById<ImageView>(R.id.app_setting_cancel).setOnClickListener {
             settingDialog!!.dismiss()
