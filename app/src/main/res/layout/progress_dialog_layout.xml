@@ -84,11 +84,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.2"
-                android:ellipsize="end"
                 android:fontFamily="@font/monestro_regular"
-                android:gravity="right"
-                android:lines="1"
-                android:text="Send successfully."
+                android:gravity="left"
+                android:text=""
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -135,6 +133,37 @@
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/progress_dialog_green_tick_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/green_tick"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/monestro_bold"
+                android:text="Message has been sent to all selected users"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"/>
 
         </LinearLayout>
 

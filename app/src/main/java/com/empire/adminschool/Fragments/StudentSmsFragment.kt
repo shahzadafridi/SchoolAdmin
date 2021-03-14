@@ -7,9 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.telephony.SmsManager
 import android.text.TextUtils
 import android.util.Log
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,16 +23,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import com.empire.adminschool.Adapters.ClassesAdapter
 import com.empire.adminschool.Adapters.StudendsAdapter
+import com.empire.adminschool.Interfaces.StudentInterface
 import com.empire.adminschool.Models.Classes
 import com.empire.adminschool.Models.SentSMS
 import com.empire.adminschool.Models.Student
 import com.empire.adminschool.MyApplication
 import com.empire.adminschool.R
-import com.empire.adminschool.Interfaces.StudentInterface
 import com.empire.adminschool.Util.AppPermissions
 import com.empire.adminschool.Util.Utility
 import com.empire.adminschool.ViewModels.MainViewModel
 import java.util.*
+
 
 class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
 
@@ -59,10 +63,11 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
     var smsLiveData = MutableLiveData<SentSMS>()
     var counter = 0
     var status: String = ""
+    var greenTickLL: LinearLayout? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         var root = inflater.inflate(R.layout.fragment_student_sms, container, false)
         return root
@@ -75,15 +80,17 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
         viewModel.getClasses(MyApplication.loginResponse!!.school.id, this)
         registerSMSBR(requireActivity())
 
-        smsLiveData.observe(viewLifecycleOwner,{
-            Log.e(TAG,"smsLiveData:" + it.status)
+        smsLiveData.observe(viewLifecycleOwner, {
+            Log.e(TAG, "smsLiveData:" + it.status)
             it?.let {
-                max!!.text = selectedStudentsSize.toString()
-                dialgoProgressBar!!.max = selectedStudentsSize
                 minimum!!.text = it.count.toString()
                 dialgoProgressBar!!.progress = it.count
-                if (selectedStudentsSize == it.count){
-                    sendSMSDialog!!.dismiss()
+                messageStatus!!.text = it.status + " to " + it.name
+                if (counter == dialgoProgressBar!!.max) {
+                    greenTickLL!!.visibility = View.VISIBLE
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        sendSMSDialog!!.dismiss()
+                    }, 4000)
                 }
             }
         })
@@ -103,6 +110,7 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
         sendButton!!.setOnClickListener(this)
         selectedSimTv = view.findViewById(R.id.send_sms_select_sim_tv)
         view.findViewById<LinearLayout>(R.id.send_sms_select_sim_ll).setOnClickListener(this)
+        view.findViewById<ImageView>(R.id.send_sms_back).setOnClickListener(this)
         selectedSimTv!!.text = "SIM 1"
         progressBar!!.visibility = View.VISIBLE
 
@@ -110,21 +118,35 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
             override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
                 progressBar!!.visibility = View.VISIBLE
                 viewModel.getStudents(
-                    classes.get(position).id,
-                    MyApplication.loginResponse!!.school.current_session,
-                    this@StudentSmsFragment
+                        classes.get(position).id,
+                        MyApplication.loginResponse!!.school.current_session,
+                        this@StudentSmsFragment
                 )
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
+        view.findViewById<RadioGroup>(R.id.send_sms_rg)!!.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.send_sms_rg_english -> {
+                    message!!.setText("Enter your message...")
+                    message!!.gravity = Gravity.LEFT or Gravity.TOP
+                }
+                R.id.send_sms_rg_urdu -> {
+                    message!!.setText("اپنا پیغام درج کریں")
+                    message!!.gravity = Gravity.RIGHT or Gravity.TOP
+                }
+            }
+        }
+
         //Send SMS Dialog.
-        sendSMSDialog = Utility.onCreateDialog(requireContext(),R.layout.progress_dialog_layout,false)
+        sendSMSDialog = Utility.onCreateDialog(requireContext(), R.layout.progress_dialog_layout, false)
         name = sendSMSDialog!!.findViewById<TextView>(R.id.progress_dialog_name)
         messageStatus = sendSMSDialog!!.findViewById<TextView>(R.id.progress_dialog_message)
         dialgoProgressBar = sendSMSDialog!!.findViewById<ProgressBar>(R.id.progress_dialog_pbar)
         minimum = sendSMSDialog!!.findViewById<TextView>(R.id.progress_dialog_min)
         max = sendSMSDialog!!.findViewById<TextView>(R.id.progress_dialog_max)
+        greenTickLL = sendSMSDialog!!.findViewById(R.id.progress_dialog_green_tick_ll)
     }
 
     override fun onGetClasses(classes: List<Classes>) {
@@ -132,9 +154,9 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
             this.classes = classes
             adapter!!.setClassesList(classes)
             viewModel.getStudents(
-                classes.get(0).id,
-                MyApplication.loginResponse!!.school.current_session,
-                this
+                    classes.get(0).id,
+                    MyApplication.loginResponse!!.school.current_session,
+                    this
             )
         }
     }
@@ -158,6 +180,7 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
         var isValid = true
 
         if (TextUtils.isEmpty(message!!.text.toString())){
+            Toast.makeText(requireContext(), "Enter message", Toast.LENGTH_LONG).show()
             isValid = false
         }
 
@@ -170,7 +193,7 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
 
             R.id.send_sms_select_sim_ll -> {
                 var dialog =
-                    Utility.onCreateDialog(requireContext(), R.layout.sim_select_layout, true)
+                        Utility.onCreateDialog(requireContext(), R.layout.sim_select_layout, true)
                 var sim1 = dialog!!.findViewById<LinearLayout>(R.id.sim_select_sim1)
                 var sim2 = dialog.findViewById<LinearLayout>(R.id.sim_select_sim2)
                 var cancelBtn = dialog.findViewById<Button>(R.id.sim_dialog_cancel)
@@ -192,23 +215,30 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
             }
 
             R.id.send_sms_btn -> {
-                if (!AppPermissions.checkReadPhoneStatePermission(requireActivity()) || !AppPermissions.checkSendSmsPermission(requireActivity())){
+                if (!AppPermissions.checkReadPhoneStatePermission(requireActivity()) || !AppPermissions.checkSendSmsPermission(requireActivity())) {
                     return
                 }
 
                 if (validation()) {
                     selectedStudentsSize = studentAdapter!!.getSelectedStudents().size
                     selectedStudents = studentAdapter!!.getSelectedStudents().toMutableList()
-                    if (selectedStudentsSize > 0){
-                        progressBar!!.visibility = View.VISIBLE
+                    max!!.text = selectedStudentsSize.toString()
+                    dialgoProgressBar!!.progress = 0
+                    dialgoProgressBar!!.max = selectedStudentsSize
+                    if (selectedStudentsSize > 0) {
+                        sendSMSDialog!!.show()
                         viewModel.sendDirectSMS(
                                 requireActivity(), viewModel.getSIMProvider(simType, requireActivity()),
-                                message!!.text.toString(), selectedStudents.get(0),null
+                                message!!.text.toString(), selectedStudents.get(0), null
                         )
-                    }else{
-                        Toast.makeText(requireContext(),"Please select student to send sms",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Please select student to send sms", Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+
+            R.id.send_sms_back -> {
+                requireActivity().onBackPressed()
             }
         }
     }
@@ -221,38 +251,38 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
                 when (resultCode) {
                     AppCompatActivity.RESULT_OK -> {
                         counter = counter + 1
-                        status = "Sent successfully"
-                        smsLiveData.value = SentSMS(counter,status)
-                        if (selectedStudents.size > 0){
+                        status = "Message sent successfully"
+                        if (selectedStudents.size > 0) {
+                            smsLiveData.value = SentSMS(counter, status, selectedStudents[0].name)
                             selectedStudents.removeAt(0)
                             if (selectedStudents.size > 0)
-                            viewModel.sendDirectSMS(
-                                    requireActivity(), viewModel.getSIMProvider(simType, requireActivity()),
-                                    message!!.text.toString(), selectedStudents.get(0),null
-                            )
+                                viewModel.sendDirectSMS(
+                                        requireActivity(), viewModel.getSIMProvider(simType, requireActivity()),
+                                        message!!.text.toString(), selectedStudents.get(0), null
+                                )
                         }
 
-                        Log.e("test","SEND_REMINDER_SMS_APP_SUCCESS ")
+                        Log.e("test", "SEND_REMINDER_SMS_APP_SUCCESS ")
                     }
                     SmsManager.RESULT_ERROR_GENERIC_FAILURE -> {
-                        status = "Sent failed"
-                        smsLiveData.value = SentSMS(counter,status)
-                        Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
+                        status = "Message sent failed"
+                        smsLiveData.value = SentSMS(counter, status, "")
+                        Log.e("test", "SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_NO_SERVICE -> {
-                        status = "Error no service"
-                        smsLiveData.value = SentSMS(counter,status)
-                        Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
+                        status = "Message sent failed"
+                        smsLiveData.value = SentSMS(counter, status, "")
+                        Log.e("test", "SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_NULL_PDU -> {
-                        status = "Error no service"
-                        smsLiveData.value = SentSMS(counter,status)
-                        Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
+                        status = "Message sent failed"
+                        smsLiveData.value = SentSMS(counter, status, "")
+                        Log.e("test", "SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_RADIO_OFF -> {
-                        status = "Error no service"
-                        smsLiveData.value = SentSMS(counter,status)
-                        Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
+                        status = "Message sent failed"
+                        smsLiveData.value = SentSMS(counter, status, "")
+                        Log.e("test", "SEND_REMINDER_SMS_APP_FAILED")
                     }
                 }
             }
@@ -262,8 +292,8 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
         val deliverSMSBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(arg0: Context?, arg1: Intent?) {
                 when (resultCode) {
-                    AppCompatActivity.RESULT_OK -> Toast.makeText(activity, "Sms delivered", Toast.LENGTH_SHORT).show()
-                    AppCompatActivity.RESULT_CANCELED -> Toast.makeText(activity, "Sms not delivered", Toast.LENGTH_SHORT).show()
+                    AppCompatActivity.RESULT_OK -> Toast.makeText(activity, "Message delivered", Toast.LENGTH_SHORT).show()
+                    AppCompatActivity.RESULT_CANCELED -> Toast.makeText(activity, "Message not delivered", Toast.LENGTH_SHORT).show()
                 }
             }
         }
