@@ -222,6 +222,9 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
                 if (validation()) {
                     selectedStudentsSize = studentAdapter!!.getSelectedStudents().size
                     selectedStudents = studentAdapter!!.getSelectedStudents().toMutableList()
+                    if (selectedStudents.get(0).mobile.contentEquals("Mobile")){
+                        selectedStudents.removeAt(0)
+                    }
                     max!!.text = selectedStudentsSize.toString()
                     dialgoProgressBar!!.progress = 0
                     dialgoProgressBar!!.max = selectedStudentsSize

@@ -162,9 +162,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
-            android:background="@drawable/black_rect_bg"
+            android:background="@drawable/green_rect_bg"
             android:fontFamily="@font/monestro_bold"
-            android:text="Send SMS"
+            android:text="Send"
             android:textColor="#fff"
             android:textSize="16dp" />
 

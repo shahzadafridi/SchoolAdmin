@@ -198,6 +198,9 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
                 if (validation()){
                     selectedEmployeeSize = employeeAdapter!!.getSelectedEmployee().size
                     selectedEmployees = employeeAdapter!!.getSelectedEmployee().toMutableList()
+                    if (selectedEmployees.get(0).mobile.contentEquals("Mobile")){
+                        selectedEmployees.removeAt(0)
+                    }
                     max!!.text = selectedEmployeeSize.toString()
                     dialgoProgressBar!!.progress = 0
                     dialgoProgressBar!!.max = selectedEmployeeSize

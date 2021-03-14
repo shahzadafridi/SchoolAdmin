@@ -9,6 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.empire.adminschool.Models.Classes
 import com.empire.adminschool.Models.Employee
 import com.empire.adminschool.Models.Student
@@ -72,6 +73,7 @@ class EmployeesAdapter(context: Context) : BaseAdapter() {
         holder.checkBox!!.isChecked = item.isCheckBox
 
         if (position == 0){
+            retView.setBackgroundColor(ContextCompat.getColor(mCtx,R.color.app_color_green))
             holder.checkBox!!.setOnCheckedChangeListener { compoundButton, b ->
                 if (compoundButton.isPressed){
                     if (b){
@@ -84,6 +86,7 @@ class EmployeesAdapter(context: Context) : BaseAdapter() {
             holder.name!!.text = "Name"
             holder.mobile!!.text = "Mobile"
         }else{
+            retView.setBackgroundColor(ContextCompat.getColor(mCtx,R.color.white))
             holder.name!!.text = item.name
             holder.mobile!!.text = item.mobile
             if (!TextUtils.isEmpty(item.photo))
