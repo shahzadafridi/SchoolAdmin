@@ -47,8 +47,6 @@ class LoginActivity : AppCompatActivity() {
             baseUrl!!.setText(it)
             RetrofitConstant.BASE_URL = it
         }
-        etEmail!!.setText("admin")
-        etPass!!.setText("@admin#599")
         btLogin!!.setOnClickListener {
             if (validation()){
                 progressBar!!.visibility = View.VISIBLE
