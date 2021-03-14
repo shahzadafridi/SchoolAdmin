@@ -71,8 +71,7 @@ class AttendenceInOutFragment : Fragment() {
                 greenTick!!.visibility = View.VISIBLE
                 Handler(Looper.getMainLooper()).postDelayed({
                     attenDialog!!.dismiss()
-                    requireActivity().onBackPressed()
-                },3000)
+                },4000)
             }
             override fun onAnimationCancel(animation: Animator?) {}
             override fun onAnimationRepeat(animation: Animator?) {}
@@ -100,8 +99,6 @@ class AttendenceInOutFragment : Fragment() {
                 objectAnimator1!!.start()
                 if (it.sms){
                     mainViewModel.sendDirectSMS(requireActivity(),sim,it.sms_text, Student("","","","",it.mobile,"",false),null)
-                    onPause()
-                    requireActivity().onBackPressed()
                 }
             }else{
                 Toast.makeText(context,"Attendence failed",Toast.LENGTH_LONG).show()
