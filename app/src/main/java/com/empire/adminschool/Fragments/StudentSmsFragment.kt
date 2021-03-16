@@ -87,6 +87,7 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
                 dialgoProgressBar!!.progress = it.count
                 messageStatus!!.text = it.status + " to " + it.name
                 if (counter == dialgoProgressBar!!.max) {
+                    Toast.makeText(requireContext(),"Message sent to all selected users",Toast.LENGTH_LONG).show()
                     greenTickLL!!.visibility = View.VISIBLE
                     Handler(Looper.getMainLooper()).postDelayed({
                         sendSMSDialog!!.dismiss()
@@ -169,8 +170,6 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
         students.clear()
         students = list.toMutableList()
         students.add(0, Student("", "Name", "", "", "Mobile", "", false))
-        students.add(1, Student("", "Shahzad Afridi", "", "", "+923339218035", "", false))
-        students.add(2, Student("", "Hizbullah", "", "", "+923451926814", "", false))
         studentAdapter!!.setStudentsList(students)
         progressBar!!.visibility = View.GONE
     }
@@ -224,11 +223,12 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
                 }
 
                 if (validation()) {
-                    selectedStudentsSize = studentAdapter!!.getSelectedStudents().size
+                    counter = 0
                     selectedStudents = studentAdapter!!.getSelectedStudents().toMutableList()
                     if (selectedStudents.get(0).mobile.contentEquals("Mobile")){
                         selectedStudents.removeAt(0)
                     }
+                    selectedStudentsSize = selectedStudents.size
                     max!!.text = selectedStudentsSize.toString()
                     dialgoProgressBar!!.progress = 0
                     dialgoProgressBar!!.max = selectedStudentsSize
@@ -272,21 +272,29 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
                         Log.e("test", "SEND_REMINDER_SMS_APP_SUCCESS ")
                     }
                     SmsManager.RESULT_ERROR_GENERIC_FAILURE -> {
+                        counter = counter + 1
+                        selectedStudents.removeAt(0)
                         status = "Message sent failed"
                         smsLiveData.value = SentSMS(counter, status, "")
                         Log.e("test", "SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_NO_SERVICE -> {
+                        counter = counter + 1
+                        selectedStudents.removeAt(0)
                         status = "Message sent failed"
                         smsLiveData.value = SentSMS(counter, status, "")
                         Log.e("test", "SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_NULL_PDU -> {
+                        counter = counter + 1
+                        selectedStudents.removeAt(0)
                         status = "Message sent failed"
                         smsLiveData.value = SentSMS(counter, status, "")
                         Log.e("test", "SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_RADIO_OFF -> {
+                        counter = counter + 1
+                        selectedStudents.removeAt(0)
                         status = "Message sent failed"
                         smsLiveData.value = SentSMS(counter, status, "")
                         Log.e("test", "SEND_REMINDER_SMS_APP_FAILED")

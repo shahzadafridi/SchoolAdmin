@@ -14,7 +14,7 @@
         android:fontFamily="@font/monestro_bold"
         android:gravity="center_horizontal"
         android:lines="1"
-        android:text="ADMIN SCHOOL"
+        android:text="SCHOOL ADMIN"
         android:textColor="#000"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
