@@ -12,6 +12,7 @@ import android.os.Looper
 import android.telephony.SmsManager
 import android.text.TextUtils
 import android.util.Log
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -81,6 +82,7 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
                 dialgoProgressBar!!.progress = it.count
                 messageStatus!!.text = it.status+ " to " + it.name
                 if (counter == dialgoProgressBar!!.max){
+                    Toast.makeText(requireContext(),"Message sent to all selected users",Toast.LENGTH_LONG).show()
                     greenTickLL!!.visibility = View.VISIBLE
                     Handler(Looper.getMainLooper()).postDelayed({
                         sendSMSDialog!!.dismiss()
@@ -123,8 +125,21 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
+        view.findViewById<RadioGroup>(R.id.emp_send_sms_rg)!!.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId){
+                R.id.send_sms_rg_english -> {
+                    message!!.setText("Enter your message...")
+                    message!!.gravity = Gravity.LEFT or Gravity.TOP
+                }
+                R.id.send_sms_rg_urdu -> {
+                    message!!.setText("اپنا پیغام درج کریں")
+                    message!!.gravity = Gravity.RIGHT or Gravity.TOP
+                }
+            }
+        }
+
         //Send SMS Dialog.
-        sendSMSDialog = Utility.onCreateDialog(requireContext(),R.layout.progress_dialog_layout,false)
+        sendSMSDialog = Utility.onCreateDialog(requireContext(),R.layout.progress_dialog_layout,true)
         name = sendSMSDialog!!.findViewById<TextView>(R.id.progress_dialog_name)
         messageStatus = sendSMSDialog!!.findViewById<TextView>(R.id.progress_dialog_message)
         dialgoProgressBar = sendSMSDialog!!.findViewById<ProgressBar>(R.id.progress_dialog_pbar)
@@ -137,9 +152,7 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
         this.employees.clear()
         if (list.size > 0) {
             this.employees = list.toMutableList()
-            employees.add(0, Employee("", "Name", "", "", "Mobile", false))
-            employees.add(1, Employee("", "Shahzad Afridi", "", "+923339218035", "", false))
-            employees.add(2, Employee("", "Hizbullah", "", "+923451926814", "", false))
+            employees.add(0, Employee("", "Name", "", "Mobile", "", false))
             employeeAdapter!!.setEmployeeList(employees.toMutableList())
             progressBar!!.visibility = View.GONE
         }
@@ -200,11 +213,12 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
 
             R.id.employee_send_btn -> {
                 if (validation()){
-                    selectedEmployeeSize = employeeAdapter!!.getSelectedEmployee().size
+                    counter = 0
                     selectedEmployees = employeeAdapter!!.getSelectedEmployee().toMutableList()
                     if (selectedEmployees.get(0).mobile.contentEquals("Mobile")){
                         selectedEmployees.removeAt(0)
                     }
+                    selectedEmployeeSize = selectedEmployees.size
                     max!!.text = selectedEmployeeSize.toString()
                     dialgoProgressBar!!.progress = 0
                     dialgoProgressBar!!.max = selectedEmployeeSize
@@ -234,7 +248,7 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
                 when (resultCode) {
                     AppCompatActivity.RESULT_OK -> {
                         counter = counter + 1
-                        status = "Sent successfully"
+                        status = "Message Sent successfully"
                         if (selectedEmployees.size > 0){
                             smsLiveData.value = SentSMS(counter,status,selectedEmployees[0].name)
                             selectedEmployees.removeAt(0)
@@ -253,21 +267,29 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
                         Log.e("test","SEND_REMINDER_SMS_APP_SUCCESS ")
                     }
                     SmsManager.RESULT_ERROR_GENERIC_FAILURE -> {
+                        counter = counter + 1
+                        selectedEmployees.removeAt(0)
                         status = "Message sent failed"
                         smsLiveData.value = SentSMS(counter,status,"")
                         Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_NO_SERVICE -> {
+                        counter = counter + 1
+                        selectedEmployees.removeAt(0)
                         status = "Message sent failed"
                         smsLiveData.value = SentSMS(counter,status,"")
                         Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_NULL_PDU -> {
+                        counter = counter + 1
+                        selectedEmployees.removeAt(0)
                         status = "Message sent failed"
                         smsLiveData.value = SentSMS(counter,status,"")
                         Log.e("test","SEND_REMINDER_SMS_APP_FAILED")
                     }
                     SmsManager.RESULT_ERROR_RADIO_OFF -> {
+                        counter = counter + 1
+                        selectedEmployees.removeAt(0)
                         status = "Message sent failed"
                         smsLiveData.value = SentSMS(counter,status,"")
                         Log.e("test","SEND_REMINDER_SMS_APP_FAILED")

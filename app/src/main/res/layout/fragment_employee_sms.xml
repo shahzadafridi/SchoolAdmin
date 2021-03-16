@@ -66,7 +66,7 @@
                 android:textSize="14sp" />
 
             <RadioGroup
-                android:id="@+id/send_sms_rg"
+                android:id="@+id/emp_send_sms_rg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"

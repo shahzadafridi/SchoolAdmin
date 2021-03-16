@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/black_white_rect_bg"
-                android:hint="https://school-admin.pk"
+                android:hint="https://school-admin.pk/"
                 android:fontFamily="@font/monestro_medium"
                 android:inputType="textPersonName"
                 android:textColor="#000"
