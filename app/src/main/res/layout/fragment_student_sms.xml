@@ -78,7 +78,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="16dp"
                     android:text="English"
-                    android:checked="true"
                     android:fontFamily="@font/monestro_bold"
                     android:textColor="@color/black"
                     android:textSize="14sp"/>
