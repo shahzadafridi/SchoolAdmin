@@ -131,6 +131,8 @@ class StudentSmsFragment : Fragment(), View.OnClickListener, StudentInterface {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
+        view.findViewById<RadioButton>(R.id.send_sms_rg_english).isChecked = true
+
         view.findViewById<RadioGroup>(R.id.send_sms_rg)!!.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId){
                 R.id.send_sms_rg_english -> {
