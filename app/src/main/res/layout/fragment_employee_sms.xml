@@ -73,6 +73,7 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/emp_send_sms_rg_english"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="16dp"
@@ -82,6 +83,7 @@
                     android:textSize="14sp"/>
 
                 <RadioButton
+                    android:id="@+id/emp_send_sms_rg_urdu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Urdu"

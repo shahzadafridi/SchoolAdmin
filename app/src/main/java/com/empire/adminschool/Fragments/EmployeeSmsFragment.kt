@@ -125,13 +125,14 @@ class EmployeeSmsFragment : Fragment(), View.OnClickListener, EmployeeInterface 
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
+        view.findViewById<RadioButton>(R.id.emp_send_sms_rg_english).isChecked = true
         view.findViewById<RadioGroup>(R.id.emp_send_sms_rg)!!.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId){
-                R.id.send_sms_rg_english -> {
+                R.id.emp_send_sms_rg_english -> {
                     message!!.setText("Enter your message...")
                     message!!.gravity = Gravity.LEFT or Gravity.TOP
                 }
-                R.id.send_sms_rg_urdu -> {
+                R.id.emp_send_sms_rg_urdu -> {
                     message!!.setText("اپنا پیغام درج کریں")
                     message!!.gravity = Gravity.RIGHT or Gravity.TOP
                 }
