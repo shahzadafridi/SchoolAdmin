@@ -9,15 +9,6 @@ import retrofit2.http.*
 
 interface EndPoints {
 
-    /*
-    @Headers(
-        "api_token: ZW5jcnlwdHNvdWxAaG9tZXJlbWVkaWVz"
-    )
-    @POST("api/categories")
-    fun getCategoires(): Call<Categories>
- http://masoodrehman.com/baloch/public/api/busService/seatHold
-     */
-
     @POST("api/login")
     @FormUrlEncoded
     fun userLogin(
@@ -82,9 +73,5 @@ interface EndPoints {
             @Path("qr_code") qr_code: String,
             @Path("school_id") school_id: String,
     ): Call<AttendenceOutResponse>
-
-//    @GET("api/user/profile")
-//    fun getUserProfile(@Query("id") id: String): Call<ProfileResponse>
-
 
 }
