@@ -47,6 +47,11 @@ class LoginActivity : AppCompatActivity() {
             baseUrl!!.setText(it)
             RetrofitConstant.BASE_URL = it
         }
+        var simType = Utility.provideSharedPreferences(this).getInt("sim_type",1)
+        when(simType){
+            1 -> settingDialog!!.findViewById<RadioButton>(R.id.app_setting_rb1).isChecked = true
+            2 -> settingDialog!!.findViewById<RadioButton>(R.id.app_setting_rb2).isChecked = true
+        }
         btLogin!!.setOnClickListener {
             if (validation()){
                 progressBar!!.visibility = View.VISIBLE
@@ -79,10 +84,7 @@ class LoginActivity : AppCompatActivity() {
                     settingDialog!!.dismiss()
                 }
             }else{
-                Utility.provideSharedPreferences(this).edit()
-                        .putInt("sim_type",type)
-                        .apply()
-                settingDialog!!.dismiss()
+                Toast.makeText(this,"Enter valid url",Toast.LENGTH_LONG).show()
             }
         }
         settingDialog!!.findViewById<ImageView>(R.id.app_setting_cancel).setOnClickListener {
