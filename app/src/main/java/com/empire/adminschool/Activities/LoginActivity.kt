@@ -84,7 +84,10 @@ class LoginActivity : AppCompatActivity() {
                     settingDialog!!.dismiss()
                 }
             }else{
-                Toast.makeText(this,"Enter valid url",Toast.LENGTH_LONG).show()
+                Utility.provideSharedPreferences(this).edit()
+                        .putInt("sim_type",type)
+                        .apply()
+                settingDialog!!.dismiss()
             }
         }
         settingDialog!!.findViewById<ImageView>(R.id.app_setting_cancel).setOnClickListener {
