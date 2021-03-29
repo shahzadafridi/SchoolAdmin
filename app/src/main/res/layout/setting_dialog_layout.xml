@@ -126,7 +126,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="      SIM 1"
-                    android:checked="true"
                     android:fontFamily="@font/monestro_bold"
                     android:textColor="@color/black"
                     android:textSize="14sp"/>
